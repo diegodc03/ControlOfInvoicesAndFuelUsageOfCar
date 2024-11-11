@@ -43,14 +43,14 @@ app.get('/facturas', async (req, res) => {
 
 
 // Ruta para guardar una factura
-app.post('/api/facturas', upload.single('foto'), async (req, res) => {
+app.post('/facturas', upload.single('foto'), async (req, res) => {
     try {
       // Aquí el archivo está disponible en req.file y el resto de datos en req.body
       const factura = new Factura({
-        cocheId: req.body.cocheId,
-        fecha: req.body.fecha,
-        importe: req.body.importe,
-        fotoUrl: `http://localhost:5000/facturas/${req.file.filename}`, // URL accesible a la imagen
+        carId: req.body.cocheId,
+        date: req.body.fecha,
+        import: req.body.importe,
+        photoId: `http://localhost:5000/facturas/${req.file.filename}`, // URL accesible a la imagen
       });
   
       await factura.save();

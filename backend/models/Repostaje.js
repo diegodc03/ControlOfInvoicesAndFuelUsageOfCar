@@ -5,8 +5,7 @@ const repostajeSchema = new moongose.Schema({
     date: { type:String, required: true },
     km: { type:Number, required: true },
     liters: { type:Number, required: true },
-    importe: { type:Number, required: true },
-    photoId: { type:String, required: false },       // URL de la foto
+    import: { type:Number, required: true },
 });
 
 module.exports = moongose.model('Repostaje', repostajeSchema);
