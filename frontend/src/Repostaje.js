@@ -1,6 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function ListRepostaje() {
     const [repostajes, setRepostajes] = useState([]);
@@ -12,6 +11,23 @@ function ListRepostaje() {
         import: '',
     });
 
+    const API_URL = 'http://localhost:5000/facturas/repostajes'; // Cambia esto por la URL de tu API
+
+    // Obtener repostajes al cargar el componente
+    useEffect(() => {
+        const fetchRepostajes = async () => {
+            try {
+                const response = await axios.get(API_URL);
+                setRepostajes(response.data);
+            } catch (error) {
+                console.error('Error al obtener los repostajes:', error);
+            }
+        };
+
+        fetchRepostajes();
+    }, []);
+
+    // Manejar cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target;
         setNewRepostaje((prevRepostaje) => ({
@@ -20,10 +36,24 @@ function ListRepostaje() {
         }));
     };
 
-    const handleAdd = () => {
-        // Crear un nuevo repostaje con un ID temporal (idealmente generado en backend)
-        const newEntry = { ...newRepostaje, _id: Date.now().toString() };
-        setRepostajes([...repostajes, newEntry]);
+    // Agregar un repostaje
+const handleAdd = async () => {
+    // Validar datos antes de enviar
+    if (!newRepostaje.carId || !newRepostaje.date || !newRepostaje.km || !newRepostaje.liters || !newRepostaje.import) {
+        console.error('Todos los campos son obligatorios.');
+        alert('Por favor, completa todos los campos antes de agregar.');
+        return;
+    }
+
+    try {
+        // Enviar datos al servidor
+        const response = await axios.post(API_URL, newRepostaje);
+
+        // Agregar el nuevo repostaje a la lista local
+        setRepostajes([...repostajes, response.data]);
+
+        // Mostrar retroalimentación al usuario
+        alert('Repostaje añadido correctamente.');
 
         // Limpiar el formulario después de añadir
         setNewRepostaje({
@@ -33,10 +63,23 @@ function ListRepostaje() {
             liters: '',
             import: '',
         });
-    };
+    } catch (error) {
+        console.error('Error al agregar el repostaje:', error);
 
-    const handleDelete = (id) => {
-        setRepostajes(repostajes.filter((repostaje) => repostaje._id !== id));
+        // Retroalimentación en caso de error
+        alert('Hubo un error al intentar agregar el repostaje. Inténtalo de nuevo.');
+    }
+};
+
+
+    // Eliminar un repostaje
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${API_URL}/${id}`);
+            setRepostajes(repostajes.filter((repostaje) => repostaje._id !== id));
+        } catch (error) {
+            console.error('Error al eliminar el repostaje:', error);
+        }
     };
 
     return (

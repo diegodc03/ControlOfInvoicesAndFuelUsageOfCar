@@ -1,6 +1,6 @@
-const moongose = require('mongoose');
+import mongoose from 'mongoose'; // Import mongoose
 
-const repostajeSchema = new moongose.Schema({
+const repostajeSchema = new mongoose.Schema({
     carId: { type:String, required: true },
     date: { type:String, required: true },
     km: { type:Number, required: true },
@@ -8,4 +8,6 @@ const repostajeSchema = new moongose.Schema({
     import: { type:Number, required: true },
 });
 
-module.exports = moongose.model('Repostaje', repostajeSchema);
+const Repostaje = mongoose.model('repostajes', repostajeSchema);
+
+export default Repostaje; // Usar export default

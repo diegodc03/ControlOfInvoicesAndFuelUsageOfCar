@@ -8,7 +8,7 @@ const FacturasList = () => {
   useEffect(() => {
     const fetchFacturas = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/facturas');
+        const response = await axios.get('http://localhost:5000/facturas/repostajes');
         setFacturas(response.data);
       } catch (error) {
         console.error('Error al obtener las facturas', error);
