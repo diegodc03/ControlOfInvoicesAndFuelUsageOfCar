@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../src/css/header.css';
 
 function ListRepostaje() {
     const [repostajes, setRepostajes] = useState([]);
@@ -23,7 +24,6 @@ function ListRepostaje() {
                 console.error('Error al obtener los repostajes:', error);
             }
         };
-
         fetchRepostajes();
     }, []);
 
@@ -84,7 +84,6 @@ const handleAdd = async () => {
 
     return (
         <div>
-            <h1>Lista de Repostajes</h1>
             <ul>
                 {repostajes.map((repostaje) => (
                     <li key={repostaje._id}>

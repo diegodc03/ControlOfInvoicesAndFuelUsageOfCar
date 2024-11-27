@@ -1,5 +1,6 @@
 
 import './App.css';
+import Header from './Header';
 
 import Repostaje from './Repostaje';
 
@@ -48,10 +49,10 @@ function App() {
   */
   
   return (
+
+  
     <div className="App">
-      <h1>Gestión de Facturas y Repostajes</h1>
-      
-    
+      <Header/>
 
       <section>
         <Repostaje />
