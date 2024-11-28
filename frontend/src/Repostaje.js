@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../src/css/header.css';
+import '../src/css/repostaje.css';
 
 function ListRepostaje() {
     const [repostajes, setRepostajes] = useState([]);
@@ -83,69 +84,78 @@ const handleAdd = async () => {
     };
 
     return (
-        <div>
-            <ul>
-                {repostajes.map((repostaje) => (
-                    <li key={repostaje._id}>
-                        <p>Coche: {repostaje.carId}</p>
-                        <p>Fecha: {repostaje.date}</p>
-                        <p>Kilómetros: {repostaje.km}</p>
-                        <p>Litros: {repostaje.liters}</p>
-                        <p>Importe: {repostaje.import}</p>
-                        <button onClick={() => handleDelete(repostaje._id)}>Borrar</button>
-                    </li>
-                ))}
-            </ul>
-
-            <h2>Añadir Repostaje</h2>
-            <form onSubmit={(e) => e.preventDefault()}>
-                <label>
-                    Coche:
-                    <input
-                        type="text"
-                        name="carId"
-                        value={newRepostaje.carId}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Fecha:
-                    <input
-                        type="date"
-                        name="date"
-                        value={newRepostaje.date}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Kilómetros:
-                    <input
-                        type="number"
-                        name="km"
-                        value={newRepostaje.km}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Litros:
-                    <input
-                        type="number"
-                        name="liters"
-                        value={newRepostaje.liters}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Importe:
-                    <input
-                        type="number"
-                        name="import"
-                        value={newRepostaje.import}
-                        onChange={handleChange}
-                    />
-                </label>
-                <button onClick={handleAdd}>Añadir Repostaje</button>
-            </form>
+        <div class="divisionPart">
+            <div>
+                <h2>Repostajes Añadidos</h2>
+                <ul>
+                    {repostajes.map((repostaje) => (
+                        <li key={repostaje._id}>
+                            <p>Coche: {repostaje.carId}</p>
+                            <p>Fecha: {repostaje.date}</p>
+                            <p>Kilómetros: {repostaje.km}</p>
+                            <p>Litros: {repostaje.liters}</p>
+                            <p>Importe: {repostaje.import}</p>
+                            <button onClick={() => handleDelete(repostaje._id)}>Borrar</button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            
+            <div>
+                <h2>Añadir Repostaje</h2>
+                <form onSubmit={(e) => e.preventDefault()}>
+                    <div class = "inputRepostaje">
+                        <label>
+                            Coche:
+                            <input
+                                type="text"
+                                name="carId"
+                                value={newRepostaje.carId}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label>
+                            Fecha:
+                            <input
+                                type="date"
+                                name="date"
+                                value={newRepostaje.date}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label>
+                            Kilómetros:
+                            <input
+                                type="number"
+                                name="km"
+                                value={newRepostaje.km}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label>
+                            Litros:
+                            <input
+                                type="number"
+                                name="liters"
+                                value={newRepostaje.liters}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label>
+                            Importe:
+                            <input
+                                type="number"
+                                name="import"
+                                value={newRepostaje.import}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    
+                    </div>
+                    <button onClick={handleAdd}>Añadir Repostaje</button>
+                </form>
+            </div>
+            
         </div>
     );
 }
