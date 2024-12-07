@@ -85,23 +85,34 @@ const handleAdd = async () => {
 
     return (
         <div class="divisionPart">
-            <div>
-                <h2>Repostajes Añadidos</h2>
+            <div  class="repostajesList">
+                <h2 >Repostajes Añadidos</h2>
                 <ul>
                     {repostajes.map((repostaje) => (
-                        <li key={repostaje._id}>
-                            <p>Coche: {repostaje.carId}</p>
-                            <p>Fecha: {repostaje.date}</p>
-                            <p>Kilómetros: {repostaje.km}</p>
-                            <p>Litros: {repostaje.liters}</p>
-                            <p>Importe: {repostaje.import}</p>
+                        <li key={repostaje._id} className="repostaje-item">
+                        {/* Checkbox para manejar el toggle */}
+                        <input type="checkbox" id={`toggle-${repostaje._id}`} className="toggle-details" />
+
+                        <label htmlFor={`toggle-${repostaje._id}`} className="general-info">
+                            <div>Fecha: {repostaje.date}</div> 
+                            <div>Kilómetros: {repostaje.km}</div>
                             <button onClick={() => handleDelete(repostaje._id)}>Borrar</button>
+                        </label>
+
+                        {/* Contenido que se mostrará/ocultará */}
+                        <div className="detalles">
+                            <div ><strong>Coche:</strong> {repostaje.carId}</div>
+                            <div ><strong>Litros:</strong> {repostaje.liters}</div>
+                            <div ><strong>Importe:</strong> {repostaje.import}</div>
+                        </div>
                         </li>
                     ))}
                 </ul>
             </div>
-            
-            <div>
+      
+            <div class="verticalDivider"></div>
+
+            <div class="addRepostaje">
                 <h2>Añadir Repostaje</h2>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <div class = "inputRepostaje">
@@ -152,7 +163,7 @@ const handleAdd = async () => {
                         </label>
                     
                     </div>
-                    <button onClick={handleAdd}>Añadir Repostaje</button>
+                    <button class="btnRepostaje" onClick={handleAdd}>Añadir Repostaje</button>
                 </form>
             </div>
             

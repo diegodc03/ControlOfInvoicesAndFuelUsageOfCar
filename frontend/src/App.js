@@ -54,7 +54,7 @@ function App() {
     <div className="App">
       <Header/>
 
-      <section>
+      <section class="section">
         <Repostaje />
       </section>
     </div>

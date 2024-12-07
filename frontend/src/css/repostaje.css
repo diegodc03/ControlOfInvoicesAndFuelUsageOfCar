@@ -1,14 +1,160 @@
 
 
 
-.inputRepostaje{
-    display: flex;
-    flex-direction: column;
-  }
-
 .divisionPart{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 10px;
+    height: 100%;
+}
+
+/* Línea divisoria */
+.verticalDivider {
+  width: 2px;
+  background-color: #ccc;
+  height: auto;
+  margin: 0 20px;
+}
+
+/* Sección izquierda */
+.repostajesList {
+  flex: 1;
+  padding: 20px;
+  margin-right: 10px;
+}
+
+
+/* Sección derecha */
+.addRepostaje {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+
+/* Estilos para los inputs */
+
+/* Estilos para los inputs */
+
+/* Contenedor principal */
+.inputRepostaje {
+  display: flex;
+  flex-direction: column; /* Los elementos serán dispuestos en columna */
+  gap: 10px; /* Espaciado entre las filas */
+  width: 100%; /* Ancho del contenedor, puedes cambiarlo si es necesario */
+  max-width: 500px; /* Establece un ancho máximo si lo deseas */
+  margin: 0 auto; /* Centra el contenedor en la página */
+}
+
+/* Ancho fijo para los inputs y botones */
+.inputRepostaje input, .inputRepostaje button {
+  width: 100%; /* Los inputs ocupan todo el ancho disponible */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box; /* Asegura que el padding no altere el tamaño total */
+}
+
+/* Estilo del botón */
+.btnRepostaje {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+
+.btnRepostaje:hover {
+  background-color: #0056b3;
+}
+
+/* Etiquetas */
+.inputRepostaje label {
+  font-weight: bold;
+  text-align: left; /* Alinea las etiquetas a la izquierda */
+  margin-bottom: 5px; /* Espaciado debajo de la etiqueta */
+}
+
+/* Opcional: Alineación de los inputs */
+.inputRepostaje input {
+  align-self: stretch; /* Asegura que los inputs ocupen todo el ancho del contenedor */
+}
+
+
+
+
+/* Parte de la tabla donde se enseñan los repostajes*/
+/* Lista de repostajes */
+.repostajesList {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Estilo de los elementos de la lista */
+.repostaje-item {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+/* Checkbox oculto */
+.toggle-details {
+  display: none;
+}
+
+/* Información general (visible siempre) */
+.general-info {
+  display: flex; /* Usamos flexbox */
+  align-items: center; /* Alinea verticalmente los elementos */
+  justify-content: space-between; /* Separa los elementos horizontalmente */
+  cursor: pointer;
+  font-weight: bold;
+  margin: 0;
+  padding: 10px 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  gap: 10px; /* Espaciado entre los elementos */
+  
+}
+
+.general-info:hover {
+  background-color: #f1f1f1;
+}
+
+/* Detalles adicionales (ocultos por defecto) */
+.detalles {
+  display: none;
+  margin-top: 10px;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Mostrar detalles cuando el checkbox esté marcado */
+.toggle-details:checked + .general-info + .detalles {
+  display: block;
+}
+
+/* Botón */
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #cc0000;
 }
