@@ -1,0 +1,85 @@
+
+
+/* Mostrar cuando el checkbox está marcado */
+/* Mostrar cuando el checkbox está marcado y alinear horizontalmente */
+.toggle-bill-add-details:checked ~ .add-bill-details {
+    display: flex; /* Cambiamos a flex para alinear */
+    flex-direction: row; /* Asegura que los elementos se dispongan horizontalmente */
+    gap: 10px; /* Espaciado entre los elementos */
+}
+
+/* Ajustar elementos internos */
+.add-bill-details .element-bill-add,
+.add-bill-details .select-bill-element {
+    flex: 1; /* Los elementos se ajustan proporcionalmente */
+    margin: 5px; /* Margen alrededor de cada elemento */
+}
+
+
+
+  .general-info {
+    
+    width: 100%;
+    flex-direction: column; /* Asegura que el contenido se alinee verticalmente */
+    display: flex; /* Usamos flexbox */
+    align-items: center; /* Alinea verticalmente los elementos */
+    /*justify-content: space-between; /* Separa los elementos horizontalmente */
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0;
+   
+    background-color: #f9f9f9;
+    border: 1px solid #939090;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+
+    margin: 10px; /* Espaciado externo */
+    padding: 15px; /* Espaciado interno */
+    
+}
+
+
+.general-info:hover {
+    background-color: #e6e6e6;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
+}
+
+/* Checkbox oculto */
+.toggle-bill-add-details {
+    display: none;
+  }
+
+
+.add-bill-details  {
+
+    display: none;
+
+
+    padding: 20px;
+    margin: 10px 0;
+
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+
+    font-size: 20px;
+    color: #555;
+    background-color: #ddd;
+  }
+
+
+.add-bill-details-element-bill-add{
+    margin:5px;
+}
+
+.add-bill-details-information-bill{
+    flex-direction: column; /* Asegura que el contenido se alinee verticalmente */
+    display: flex; /* Usamos flexbox */
+}
+
+.select-bill-element{
+    margin:5px;
+}
+

@@ -20,7 +20,9 @@ function ListRepostaje() {
         const fetchRepostajes = async () => {
             try {
                 const response = await axios.get(API_URL);
-                setRepostajes(response.data);
+                // Ordenar por kilómetros en orden descendente
+                const sortedRepostajes = response.data.sort((a, b) => b.km - a.km);
+                setRepostajes(sortedRepostajes);
             } catch (error) {
                 console.error('Error al obtener los repostajes:', error);
             }
@@ -37,40 +39,80 @@ function ListRepostaje() {
         }));
     };
 
-    // Agregar un repostaje
-const handleAdd = async () => {
-    // Validar datos antes de enviar
-    if (!newRepostaje.carId || !newRepostaje.date || !newRepostaje.km || !newRepostaje.liters || !newRepostaje.import) {
-        console.error('Todos los campos son obligatorios.');
-        alert('Por favor, completa todos los campos antes de agregar.');
-        return;
-    }
+        // Agregar un repostaje
+    const handleAdd = async () => {
+        // Validar datos antes de enviar
+        if (!newRepostaje.carId || !newRepostaje.date || !newRepostaje.km || !newRepostaje.liters || !newRepostaje.import) {
+            console.error('Todos los campos son obligatorios.');
+            alert('Por favor, completa todos los campos antes de agregar.');
+            return;
+        }
 
-    try {
-        // Enviar datos al servidor
-        const response = await axios.post(API_URL, newRepostaje);
+        // Comprobar los datos si se añaden correctamente
+        if(repostajes.length > 0){
+            // Ordenar los repostajes por fecha (aseguramos que estén correctamente ordenados)
+            const sortedRepostajes = [...repostajes].sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
 
-        // Agregar el nuevo repostaje a la lista local
-        setRepostajes([...repostajes, response.data]);
+        // Hay que encontrar el repostaje anterior al nuevo repostaje
+        // Es decir, el que tenga el menor mayor número de kilómetros despues del nuevo repostaje
+        const repostajeAnterior = repostajes.find((repostaje) => repostaje.km < newRepostaje.km);
+        
+        if(repostajeAnterior){
+            // Se tiene que calcular que la fecha del repostaje nuevo sea mayor a la fecha del repostaje anterior y menor a la fecha actual
+            const fechaActual = new Date();
+            const fechaAnterior = new Date(repostajeAnterior.date);
 
-        // Mostrar retroalimentación al usuario
-        alert('Repostaje añadido correctamente.');
+            //Quiero encontrar el indice del repostaje posterior si hay alguno
+            const index = repostajes.findIndex((repostaje) => repostaje.km > newRepostaje.km);
+            if(index > 0){
+                const repostajePosterior = repostajes[index];
+                const fechaPosterior = new Date(repostajePosterior.date);
 
-        // Limpiar el formulario después de añadir
-        setNewRepostaje({
-            carId: '',
-            date: '',
-            km: '',
-            liters: '',
-            import: '',
-        });
-    } catch (error) {
-        console.error('Error al agregar el repostaje:', error);
+                if(fechaAnterior < new Date(newRepostaje.date) && new Date(newRepostaje.date) < fechaActual && fechaActual > fechaPosterior){
+                    console.log('Fecha correcta');
+                }else{
+                    console.error('La fecha del repostaje no es correcta');
+                    alert('La fecha del repostaje no es correcta');
+                    return;
+                }
+                
+                if(repostajeAnterior.km < newRepostaje.km && newRepostaje.km < repostajePosterior.km){
+                    console.log('Kilometraje correcto');
+                }else{
+                    console.error('El kilometraje del repostaje no es correcto');
+                    alert('El kilometraje del repostaje no es correcto');
+                    return;
+                }
+            }   
+        }
 
-        // Retroalimentación en caso de error
-        alert('Hubo un error al intentar agregar el repostaje. Inténtalo de nuevo.');
-    }
-};
+        try {
+            // Enviar datos al servidor
+            const response = await axios.post(API_URL, newRepostaje);
+
+            // Agregar el nuevo repostaje a la lista local
+            setRepostajes([...repostajes, response.data]);
+
+            // Mostrar retroalimentación al usuario
+            alert('Repostaje añadido correctamente.');
+
+
+            // Limpiar el formulario después de añadir
+            setNewRepostaje({
+                carId: '',
+                date: '',
+                km: '',
+                liters: '',
+                import: '',
+            });
+        } catch (error) {
+            console.error('Error al agregar el repostaje:', error);
+
+            // Retroalimentación en caso de error
+            alert('Hubo un error al intentar agregar el repostaje. Inténtalo de nuevo.');
+        }
+    };
 
 
     // Eliminar un repostaje
