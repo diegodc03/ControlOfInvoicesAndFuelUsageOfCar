@@ -3,10 +3,21 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+
 import Repostaje from '../model/Repostaje.js';
+import bill from '../model/Bill.js';
+
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
+
+import { fileURLToPath } from 'url';
+
+// Simular __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 
 
 // Creamos la aplicación de Express
@@ -40,21 +51,6 @@ const upload = multer({
     }
   },
 });
-
-//Configuamos el multer para subir archivos al servidor
-/*
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'uploads');
-    },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname));
-    },
-  });
-  
-const upload = multer({ storage: storage });
-*/
-
 
 
 // Ruta para obtener todas las facturas
@@ -118,72 +114,133 @@ app.delete('/facturas/repostajes/:id', async (req, res) => {
 
 app.post('/facturas/uploadBill', upload.single('file'), (req, res) => {
   
-  const { cost, date, fileName } = req.body;
+  const { cost, date, km, fileName } = req.body;
   const file = req.file;
   
-  if (!cost || !date || !fileName || !file || file.length === 0) {
-    console.log('Archivo recibido:', file);
-    console.log('valor de file', file.length)
-    console.log('Nombre:', fileName, 'Coste:', cost, 'Fecha:', date);
+  if (!cost || !date || !km || !fileName || !file ) {
     return res.status(400).send('Faltan datos o archivos, comprueba tu solicitud');
   }
 
+  // check if there is a file
+  if (!req.file || req.file.length === 0) {
+    return res.status(400).send('No se subió ningún archivo');
+  }
+
   try {
-    if (!req.file || req.file.length === 0) {
-      return res.status(400).send('No se subió ningún archivo');
+    // Ruta donde se guardará el archivo
+    const uploadDir = path.join(__dirname, 'billuploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir); // Crear el directorio si no existe
     }
 
+    const newPath = path.join(uploadDir, fileName);
 
+    // Guardar el archivo con el nombre especificado
+    if (fs.existsSync(newPath)) {
+      return res.status(400).send('El archivo con este nombre ya existe');
+    }
+
+    fs.renameSync(file.path, newPath);
+
+    
+     // We create de new bill object
+     const newBill = new bill({
+      date,
+      cost,
+      km,
+      fileName
+    });
+
+
+    // We save the bill object in the database
+    newBill.save();
+    
     console.log('Archivo recibido:', file);
-    console.log('Nombre:', fileName, 'Coste:', cost, 'Fecha:', date);
-
-    res.json({ message: 'Datos recibidos correctamente.' });
-
-
-    // Guardar todos los archivos subidos
-    const savedPaths = req.files.map((file) => saveImage(file));
-
-    res.status(200).send({
-      message: 'Archivos subidos correctamente',
-      paths: savedPaths,
+    // Responder al cliente
+    res.status(200).json({
+      message: 'Datos y archivo guardados correctamente',
+      data: {
+        date,
+        km,
+        cost,
+        fileName,
+      },
     });
   } catch (error) {
-    console.error('Error al subir los archivos:', error);
-    res.status(500).send({ error: 'Error al procesar los archivos' });
+    res.status(500).send({ error: 'Error al guardar datos o archivo' });
   }
 });
 
 
-  function saveImage(file) {
-    const originalFileName = file.originalname; // Nombre original del archivo con su extensión
-    const newPath = path.join(__dirname, 'billuploads', originalFileName); // Usa path.join para asegurar la correcta concatenación
-    console.log(`Guardando archivo en: ${newPath}`);
-    try {
-      // Verifica si el archivo ya existe para evitar sobrescribirlo
-      if (fs.existsSync(file.path)) {
-        fs.renameSync(file.path, newPath); // Renombra el archivo de acuerdo a su nombre original
-        console.log(`Archivo guardado en: ${newPath}`);
-        return newPath; // Devuelve la ruta del archivo guardado
-      } else {
-        console.log(`Archivo no encontrado: ${file.path}`);
-        return null;
-      }
-    } catch (error) {
-      console.error('Error al guardar el archivo:', error);
-      return null;
-    }
+
+app.get('/facturas/get-all', async(req, res) => {
+  console.log('GET /facturas/get-all');
+  
+  try{
+    const bills = await bill.find();
+    res.json(bills);
+  }catch(error){
+    res.status(500).send({ error: 'Error al obtener las facturas' });
   }
 
 
-  app.get('/facturas', async(req, res) => {
+});
+
+
+app.delete('/facturas/delete/:id', async(req, res) => {
+
+  const { id } = req.params;
+  console.log('DELETE /facturas/delete/:id', id);
+  try {
+    const billToDelete = await bill.findById(id);
+    if (!billToDelete) {
+      return res.status(404).send('Factura no encontrada');
+    }
+
+
+    console.log('Factura encontrada:', billToDelete);
+    
+    // delete the related file
+    const uploadDir = path.join(__dirname, 'billuploads');
+    const filePath = path.join(uploadDir, billToDelete.fileName);
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    await bill.findByIdAndDelete(id);
+
+    res.status(200).send('Factura eliminada correctamente');
+
+  }catch (error) {
+    res.status(500).send({ error: 'Error al eliminar la factura' });
+  }
+
+});
 
 
 
-  });
+app.delete('/facturas/delete-all', async(req, res) => {
 
+  console.log('DELETE /facturas/delete-all');
+  try {
+    const bills = await bill.find();
+    bills.forEach(async (billToDelete) => {
+      const uploadDir = path.join(__dirname, 'billuploads');
+      const filePath = path.join(uploadDir, billToDelete.fileName);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+      await bill.findByIdAndDelete(billToDelete._id);
+    });
 
+    res.status(200).send('Todas las facturas han sido eliminadas correctamente');
 
+  }catch (error) {
+    res.status(500).send({ error: 'Error al eliminar las facturas' });
+  }
 
+});
 
 mongoose.connect('mongodb://localhost:27017/facturas', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

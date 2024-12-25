@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../src/css/bill.css';
+import ShowBills from './mostrarFacturas';
+
 
 const API_URL = 'http://localhost:5000/facturas';
 
@@ -12,6 +14,7 @@ const FileUpload = () => {
     const [fileName, setFileName] = useState('');   
     const [cost, setCost] = useState('');
     const [date, setDate] = useState('');
+    const [km, setKm] = useState('');
 
 
     const handleFileChange = (e) => {
@@ -21,23 +24,30 @@ const FileUpload = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Validar y ajustar el nombre del archivo
+        const adjustedFileName = changeFileName(fileName);
+        setFileName(adjustedFileName);
+
         if (!file || !file.name.match(/\.(jpg|jpeg|png)$/) ) {
             console.error('No hay archivo seleccionado');
             alert('Por favor, selecciona un archivo antes de enviar.');
             return;
         }
 
-        if (!cost || !date || !fileName) {
+        if (!cost || !date || !fileName || !km) {
             console.error('No hay informacion referente a la factura');
             alert('Por favor, inroduzca informacion referente a la factura.');
             return;
         }
 
+        console.log('filename:', fileName);
+
         const formData = new FormData();
         formData.append('file', file);
         formData.append('cost', cost);
         formData.append('date', date);
-        formData.append('fileName', fileName);
+        formData.append('km', km);
+        formData.append('fileName', adjustedFileName);
 
 
         
@@ -55,6 +65,19 @@ const FileUpload = () => {
     };
 
     
+    const changeFileName = (e) => {
+        console.log(e);
+        let name = e;
+
+        const validExtensions = ['jpg', 'jpeg', 'png'];
+        const hadValidExtension = validExtensions.some((ext) => name.toLowerCase().endsWith(`.${ext}`));
+
+        if (!hadValidExtension) {
+            name += '.jpg';
+        }
+        return name;
+    }
+
     return (
         <div>
             <div className='general-info'>
@@ -71,6 +94,7 @@ const FileUpload = () => {
                         <div className='add-bill-details-information-bill'>
                             <input className='element-bill-add' type="text" placeholder="Nombre del archivo" value={fileName} onChange={(e) => setFileName(e.target.value)}/>
                             <input className='element-bill-add' type="number" placeholder="Coste" value={cost} onChange={(e) => setCost(e.target.value)}/>
+                            <input className='element-bill-add' type="number" placeholder="Kilometraje" value={km} onChange={(e) => setKm(e.target.value)}/>
                             <input className='element-bill-add' type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
                         </div>
                         
@@ -86,13 +110,16 @@ const FileUpload = () => {
                     </form>
                 </div>
             </div>
+
+            <div>
+                <ShowBills />
+            </div>
             
             
             
             
         </div>
     );
-
 }
 
 
