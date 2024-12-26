@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-import Repostaje from '../model/Repostaje.js';
+import Repostajes from '../model/Repostaje.js';
 import bill from '../model/Bill.js';
 
 import multer from 'multer';
@@ -12,6 +12,16 @@ import fs from 'fs';
 import path from 'path';
 
 import { fileURLToPath } from 'url';
+
+import dotenv from 'dotenv';
+dotenv.config({ path: '../config.env' });
+
+
+
+console.log('MONGODB_CONNECT_URL:', process.env.MONGODB_CONNECT_URL);
+console.log('PORT:', process.env.PORT);
+
+
 
 // Simular __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +34,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 
 
 // Configurar una carpeta para servir archivos estáticos
@@ -59,7 +70,7 @@ const upload = multer({
 
 // Ruta para obtener todas las facturas
 app.get('/facturas/repostajes', async (req, res) => {
-    const listRepostaje = await Repostaje.find();
+    const listRepostaje = await Repostajes.find();
     res.json(listRepostaje);
 });
 
@@ -68,18 +79,17 @@ app.get('/facturas/repostajes', async (req, res) => {
 // Ruta para guardar una factura
 app.post('/facturas/repostajes', async (req, res) => {
     try {
-        // Recogemos los datos enviados desde el front-end
         const { carId, date, km, liters, import: importAmount } = req.body;
-    
+
         // Creamos una nueva instancia del modelo Repostaje
-        const repostaje = new Repostaje({
+        const repostaje = new Repostajes({
           carId,
           date,
           km,
           liters,
           import: importAmount
         });
-    
+      
         // Guardamos el repostaje en la base de datos
         await repostaje.save();
         res.status(201).json(repostaje);  // Respondemos con los datos del repostaje guardado
@@ -90,24 +100,19 @@ app.post('/facturas/repostajes', async (req, res) => {
 
 
 
-// Ruta para borrar una factura
+// Ruta para borrar un repostaje
 app.delete('/facturas/repostajes/:id', async (req, res) => {
-  try {
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).send('No se subió ningún archivo');
+  try{
+    const { id } = req.params;
+    const repostaje = await Repostajes.findById(id);
+    if (!repostaje) {
+      return res.status(404).send('Repostaje no encontrado');
     }
-
-    console.log('Archivos subidos:', req.files);
-
-    // Puedes procesar cada archivo subido
-    const savedPaths = req.files.map((file) => saveImage(file)); // saveImage maneja cada archivo
-    res.status(200).send({
-      message: 'Archivos subidos correctamente',
-      paths: savedPaths,
-    });
-  } catch (error) {
-    console.error('Error al subir los archivos:', error);
-    res.status(500).send({ error: 'Error al procesar los archivos' });
+    await Repostajes.findByIdAndDelete(id);
+    res.status(200).send('Repostaje eliminado correctamente');
+    
+  }catch(error){
+    res.status(500).send({ error: 'Error al eliminar el repostaje' });
   }
 });
 
@@ -248,13 +253,14 @@ app.delete('/facturas/delete-all', async(req, res) => {
 
 
 
+const PORT = process.env.PORT || 5000;
 
 
-mongoose.connect('mongodb://localhost:27017/facturas', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_CONNECT_URL)
   .then(() => {
       console.log('Conexión a MongoDB exitosa');
-      app.listen(5000, () => {
-          console.log('Servidor corriendo en el puerto 5000');
+      app.listen(PORT, () => {
+          console.log('Servidor corriendo ');
       });
   })
   .catch((error) => {

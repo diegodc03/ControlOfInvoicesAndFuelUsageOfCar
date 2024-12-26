@@ -90,6 +90,8 @@ function ListRepostaje() {
         }
 
         try {
+            console.log('Añadiendo repostaje:');
+            console.log('Nuevo repostaje:', newRepostaje);
             // Enviar datos al servidor
             const response = await axios.post(API_URL, newRepostaje);
 
@@ -122,6 +124,10 @@ function ListRepostaje() {
         try {
             await axios.delete(`${API_URL}/${id}`);
             setRepostajes(repostajes.filter((repostaje) => repostaje._id !== id));
+            alert('Repostaje eliminado correctamente');
+
+            // Si se elimina un repostaje, se debe reiniciar pagina
+            window.location.reload();
         } catch (error) {
             console.error('Error al eliminar el repostaje:', error);
         }
@@ -177,7 +183,7 @@ function ListRepostaje() {
             <div class="addRepostaje">
                 <h2>Añadir Repostaje</h2>
                 <form onSubmit={(e) => e.preventDefault()}>
-                    <div class = "inputRepostaje">
+                    <div className= "inputRepostaje">
                         <label>
                             Coche:
                             <input
