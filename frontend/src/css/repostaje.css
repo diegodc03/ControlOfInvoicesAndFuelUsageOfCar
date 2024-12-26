@@ -114,7 +114,6 @@
   display: flex; /* Usamos flexbox */
   align-items: center; /* Alinea verticalmente los elementos */
   justify-content: space-between; /* Separa los elementos horizontalmente */
-  cursor: pointer;
   font-weight: bold;
   margin: 0;
   padding: 10px 15px;

@@ -42,6 +42,17 @@ const ShowBills = () => {
             doc.save(`factura_${factura.date}.pdf`);
         };
     };
+
+    const handleDelete = async (factura) => {
+        try {
+            await axios.delete(`${API_URL}/delete/${factura._id}`);
+            const response = await axios.get(`${API_URL}/get-all`);
+            setFacturas(response.data);
+        } catch (error) {
+            console.error('Error al eliminar la factura:', error);
+        }
+    }
+
     return (
         <div className='general'>
             <h2>Facturas</h2>
@@ -62,8 +73,8 @@ const ShowBills = () => {
                                     onClick={() => setSelectedFactura(factura)}
                                     />
                             </div>
-                            
-                            {/*<button className='delete-button'>Eliminar</button>
+                            <button onClick={() => handleDelete(factura)} className='delete-button'>Eliminar</button>
+                            {/*
                             <button className='download-button'>descargar factura</button>*/}
                         </div>
                     ))}

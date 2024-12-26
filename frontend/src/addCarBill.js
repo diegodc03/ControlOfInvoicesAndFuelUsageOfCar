@@ -106,7 +106,7 @@ const AddCarBill = () => {
                 
 
 
-                <div class = "add-bill-details">
+                <div className = "add-bill-details">
                     <form onSubmit={handleSubmit}>
     
                         <div className='add-bill-details-information-bill'>

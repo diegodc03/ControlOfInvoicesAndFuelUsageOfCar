@@ -24,7 +24,7 @@
     display: grid; /* Usamos flexbox */
     grid-template-columns: 1fr 1fr; /* Dos columnas */
     
-    cursor: pointer;
+
     font-weight: bold;
     margin: 0;
    
@@ -48,6 +48,7 @@
 }
 
 .toggle-bill-add{
+    cursor: pointer;
     margin-top: 7px;
     margin-left: 50px;
 }
@@ -170,6 +171,48 @@ label {
     margin-bottom: 5px;
     color: #555;
 }
+
+
+
+
+@media(max-width: 1024px) {
+    .general-info {
+        grid-template-columns: 1fr; /* Asegura que todo se muestre en una columna */
+    }
+
+    .general-info-tittle {
+        display: flex;
+        flex-direction: column; /* Elementos en vertical */
+        align-items: center; /* Centra el contenido horizontalmente */
+        gap: 10px; /* Espaciado entre el título y el botón */
+    }
+
+    .add-bill-details {
+        flex-direction: column; /* Asegura la disposición vertical */
+        display: flex;
+        gap: 10px;
+    }
+
+    .add-bill-details-information-bill {
+        grid-template-columns: 1fr; /* Cambia a una sola columna */
+    }
+
+    .add-bill-details-element-bill-add {
+        flex-direction: column;
+        display: flex;
+        gap: 10px;
+    }
+
+    .select-bill-element {
+        margin: 5px 0; /* Ajusta el margen */
+    }
+
+    .toggle-bill-add {
+        margin: 0; /* Ajusta márgenes para centrar */
+        text-align: center;
+    }
+}
+
 
 
 
