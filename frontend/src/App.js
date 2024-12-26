@@ -2,7 +2,7 @@
 import './App.css';
 import Header from './Header';
 import Repostaje from './Repostaje';
-import FileUpload from './facturasCoche.js';
+import CarBills from './facturasCoche.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
@@ -19,7 +19,7 @@ function App() {
 
             {/* Otras rutas */}
             <Route path="/repostaje" element={<Repostaje />} />
-            <Route path="/facturas" element={<FileUpload />} />
+            <Route path="/facturas" element={<CarBills />} />
 
             {/* Ruta para manejar URLs inexistentes (opcional) */}
             <Route path="*" element={<Repostaje />} />

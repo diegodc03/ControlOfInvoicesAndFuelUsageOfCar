@@ -32,6 +32,19 @@
 }
 
 
+@media(max-width: 768px){
+    .show-general-bill{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* Cambios para pantallas medianas (tablets) */
+@media (max-width: 1024px) {
+    .show-general-bill {
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    }
+}
+
 
 
 /* Fondo del modal */

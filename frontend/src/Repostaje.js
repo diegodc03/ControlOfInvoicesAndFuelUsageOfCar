@@ -13,6 +13,8 @@ function ListRepostaje() {
         import: '',
     });
 
+    const [isClicked, setIsClicked] = useState(false);
+
     const API_URL = 'http://localhost:5000/facturas/repostajes'; // Cambia esto por la URL de tu API
 
     // Obtener repostajes al cargar el componente
@@ -125,8 +127,25 @@ function ListRepostaje() {
         }
     };
 
+
+    const handleRepostajeIsClicked = () => {
+        setIsClicked(!isClicked);
+    }
+
     return (
         <div class="divisionPart">
+            
+      
+                <input type="checkbox" id="toggle-add-repostaje" className="toggle-add-repostaje movil-format-checkbox" />
+                <label htmlFor="toggle-add-repostaje" className="add-repostaje-btn movil-format" onClick={handleRepostajeIsClicked}>
+                    <h2>
+                        {!isClicked ? 'Añadir Repostaje' : 'Ocultar'}   
+                    </h2>
+                </label>
+
+            
+
+
             <div  class="repostajesList">
                 <h2 >Repostajes Añadidos</h2>
                 <ul>
@@ -151,7 +170,8 @@ function ListRepostaje() {
                     ))}
                 </ul>
             </div>
-      
+            
+
             <div class="verticalDivider"></div>
 
             <div class="addRepostaje">
