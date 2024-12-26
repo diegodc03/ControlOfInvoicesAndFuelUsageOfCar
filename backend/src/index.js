@@ -26,6 +26,8 @@ app.use(cors());
 app.use(express.json());
 
 
+// Configurar una carpeta para servir archivos estáticos
+app.use('/facturas/billuploads', express.static(path.join(__dirname, 'billuploads')));
 
 
 
@@ -51,6 +53,8 @@ const upload = multer({
     }
   },
 });
+
+
 
 
 // Ruta para obtener todas las facturas
@@ -241,6 +245,10 @@ app.delete('/facturas/delete-all', async(req, res) => {
   }
 
 });
+
+
+
+
 
 mongoose.connect('mongodb://localhost:27017/facturas', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

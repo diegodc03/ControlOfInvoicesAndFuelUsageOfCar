@@ -8,7 +8,7 @@ const API_URL = 'http://localhost:5000/facturas';
 
 const FileUpload = () => {
 
-
+    const [isClicked, setIsClicked] = useState(false);
     
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState('');   
@@ -78,19 +78,28 @@ const FileUpload = () => {
         return name;
     }
 
+    const handleClick = () => {
+        setIsClicked(!isClicked);
+    }
+
     return (
         <div>
             <div className='general-info'>
 
                 <input type="checkbox" id={'toggle'} className="toggle-bill-add-details" />
                 
-                <h2>Añadir Factura</h2>
-                <label htmlFor="toggle" className="toggle-bill-add">CLICK AQUÍ</label>
+                <div className='general-info-tittle'>
+                    <h2>Añadir Factura</h2>
+                    <label htmlFor="toggle" className="toggle-bill-add" onClick={handleClick} >
+                        {!isClicked ? 'Agregar Factura' : 'Cerrar'}    
+                    </label>
+                </div>
+                
 
 
                 <div class = "add-bill-details">
                     <form onSubmit={handleSubmit}>
-
+    
                         <div className='add-bill-details-information-bill'>
                             <input className='element-bill-add' type="text" placeholder="Nombre del archivo" value={fileName} onChange={(e) => setFileName(e.target.value)}/>
                             <input className='element-bill-add' type="number" placeholder="Coste" value={cost} onChange={(e) => setCost(e.target.value)}/>

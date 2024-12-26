@@ -17,13 +17,13 @@
 
 
 
-  .general-info {
+.general-info {
     
     width: 100%;
-    flex-direction: column; /* Asegura que el contenido se alinee verticalmente */
-    display: flex; /* Usamos flexbox */
-    align-items: center; /* Alinea verticalmente los elementos */
-    /*justify-content: space-between; /* Separa los elementos horizontalmente */
+    
+    display: grid; /* Usamos flexbox */
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    
     cursor: pointer;
     font-weight: bold;
     margin: 0;
@@ -46,6 +46,19 @@
     background-color: #e6e6e6;
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
 }
+
+.toggle-bill-add{
+    margin-top: 7px;
+    margin-left: 50px;
+}
+
+
+.general-info-tittle{
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 
 /* Checkbox oculto */
 .toggle-bill-add-details {
@@ -75,11 +88,85 @@
 }
 
 .add-bill-details-information-bill{
-    flex-direction: column; /* Asegura que el contenido se alinee verticalmente */
-    display: flex; /* Usamos flexbox */
+    flex-direction: grid; /* Asegura que el contenido se alinee verticalmente */
+    gap: 10px; /* Espaciado entre los elementos */
+    margin: 10px; /* Espaciado externo */
+    padding: 15px; /* Espaciado interno */
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
 }
 
 .select-bill-element{
     margin:5px;
 }
 
+/* Estilo general para inputs */
+.element-bill-add {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    padding: 10px; /* Espaciado interno */
+    margin: 10px 0; /* Espaciado externo */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de texto */
+    color: #333; /* Color del texto */
+    background-color: #f9f9f9; /* Fondo gris claro */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interna */
+    transition: all 0.3s ease; /* Transición suave para cambios */
+}
+
+
+/* Estilo para inputs al hacer foco */
+.element-bill-add:focus {
+    border-color: #007bff; /* Cambia el borde al color azul */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Resplandor azul */
+    outline: none; /* Elimina el borde predeterminado */
+    background-color: #ffffff; /* Fondo blanco para mayor contraste */
+}
+
+/* Estilo para el botón */
+button {
+    background-color: #007bff; /* Fondo azul */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de texto */
+    border-radius: 8px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+/* Hover y active para el botón */
+button:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); /* Sombra suave */
+}
+
+button:active {
+    background-color: #00408d; /* Azul más oscuro aún */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más definida */
+}
+
+/* Estilo para el input de tipo archivo */
+input[type="file"] {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+    background-color: #e6e6e6;
+}
+
+input[type="file"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Etiqueta del archivo */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
