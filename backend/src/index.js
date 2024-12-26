@@ -14,7 +14,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import dotenv from 'dotenv';
-dotenv.config({ path: '../config.env' });
+dotenv.config({ path: './config.env' });
 
 
 
@@ -110,7 +110,7 @@ app.delete('/facturas/repostajes/:id', async (req, res) => {
     }
     await Repostajes.findByIdAndDelete(id);
     res.status(200).send('Repostaje eliminado correctamente');
-    
+
   }catch(error){
     res.status(500).send({ error: 'Error al eliminar el repostaje' });
   }
