@@ -5,6 +5,8 @@ import Repostaje from './Repostaje';
 import CarBills from './facturasCoche.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import SignIn from './loginRegisterModule/SignIn.js';
+import SignUp from './loginRegisterModule/SignUp.js';
 
 function App() {
  
@@ -15,14 +17,16 @@ function App() {
         <section className="section">
           <Routes>
             {/* Ruta predeterminada para mostrar Repostaje */}
-            <Route path="/" element={<Repostaje />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/" element={<SignIn />} />
 
             {/* Otras rutas */}
             <Route path="/repostaje" element={<Repostaje />} />
             <Route path="/facturas" element={<CarBills />} />
 
             {/* Ruta para manejar URLs inexistentes (opcional) */}
-            <Route path="*" element={<Repostaje />} />
+            <Route path="*" element={<SignIn />} />
           </Routes>
         </section>
       </div>
