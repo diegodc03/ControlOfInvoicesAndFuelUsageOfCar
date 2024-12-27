@@ -3,7 +3,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import '../src/css/mostrarFacturas.css';
 
-const API_URL = 'http://localhost:5000/facturas';
+import API_URLS from './routesBackend';
 
 
 const ShowBills = () => {
@@ -15,7 +15,7 @@ const ShowBills = () => {
     useEffect(() => {
         const fetchBills = async () => {
           try {
-            const response = await axios.get(`${API_URL}/get-all`);
+            const response = await axios.get(`${API_URLS.facturas}/get-all`);
             setFacturas(response.data);
           } catch (error) {
             console.error('Error al obtener las facturas', error);
@@ -35,7 +35,7 @@ const ShowBills = () => {
 
         // Añadir imagen
         const img = new Image();
-        var element = `${API_URL}/billuploads/${selectedFactura.fileName}`;
+        var element = `${API_URLS.facturas}/billuploads/${selectedFactura.fileName}`;
         img.src = element;
         img.onload = () => {
             doc.addImage(img, 'JPEG', 10, 40, 150, 100); // Ajustar tamaño y posición
@@ -45,8 +45,8 @@ const ShowBills = () => {
 
     const handleDelete = async (factura) => {
         try {
-            await axios.delete(`${API_URL}/delete/${factura._id}`);
-            const response = await axios.get(`${API_URL}/get-all`);
+            await axios.delete(`${API_URLS.facturas}/delete/${factura._id}`);
+            const response = await axios.get(`${API_URLS.facturas}/get-all`);
             setFacturas(response.data);
         } catch (error) {
             console.error('Error al eliminar la factura:', error);
@@ -67,7 +67,7 @@ const ShowBills = () => {
                             <p>kilometros: {factura.km} </p>
                             <div>
                                 <img 
-                                    src={`${API_URL}/billuploads/${factura.fileName}`}
+                                    src={`${API_URLS.facturas}/billuploads/${factura.fileName}`}
                                     alt="Factura" 
                                     style={{ width: '100px' , borderRadius: '8px' }} 
                                     onClick={() => setSelectedFactura(factura)}
@@ -86,7 +86,7 @@ const ShowBills = () => {
                 <div className="modal" onClick={() => setSelectedFactura(null)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <img
-                            src={`${API_URL}/billuploads/${selectedFactura.fileName}`}
+                            src={`${API_URLS.facturas}/billuploads/${selectedFactura.fileName}`}
                             alt="Factura ampliada"
                             style={{ width: '100%', borderRadius: '8px' }}
                         />

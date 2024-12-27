@@ -3,9 +3,7 @@ import axios from 'axios';
 import '../src/css/bill.css';
 import ShowBills from './mostrarFacturas';
 
-
-const API_URL = 'http://localhost:5000/facturas';
-
+import API_URLS from './routesBackend';
 
 
     
@@ -55,7 +53,7 @@ const AddCarBill = () => {
 
         
         try {
-            const response = await axios.post(`${API_URL}/uploadBill`, formData, {
+            const response = await axios.post(`${API_URLS.facturas}/uploadBill`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

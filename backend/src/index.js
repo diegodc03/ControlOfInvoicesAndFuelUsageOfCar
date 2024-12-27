@@ -69,7 +69,7 @@ const upload = multer({
 
 
 // Ruta para obtener todas las facturas
-app.get('/facturas/repostajes', async (req, res) => {
+app.get('/repostajes', async (req, res) => {
     const listRepostaje = await Repostajes.find();
     res.json(listRepostaje);
 });
@@ -77,7 +77,7 @@ app.get('/facturas/repostajes', async (req, res) => {
 
 
 // Ruta para guardar una factura
-app.post('/facturas/repostajes', async (req, res) => {
+app.post('/repostajes', async (req, res) => {
     try {
         const { carId, date, km, liters, import: importAmount } = req.body;
 
@@ -101,7 +101,7 @@ app.post('/facturas/repostajes', async (req, res) => {
 
 
 // Ruta para borrar un repostaje
-app.delete('/facturas/repostajes/:id', async (req, res) => {
+app.delete('/repostajes/:id', async (req, res) => {
   try{
     const { id } = req.params;
     const repostaje = await Repostajes.findById(id);

@@ -3,6 +3,9 @@ import axios from 'axios';
 import '../src/css/header.css';
 import '../src/css/repostaje.css';
 
+import API_URLS from './routesBackend';
+
+
 function ListRepostaje() {
     const [repostajes, setRepostajes] = useState([]);
     const [newRepostaje, setNewRepostaje] = useState({
@@ -15,13 +18,12 @@ function ListRepostaje() {
 
     const [isClicked, setIsClicked] = useState(false);
 
-    const API_URL = 'http://localhost:5000/facturas/repostajes'; // Cambia esto por la URL de tu API
 
     // Obtener repostajes al cargar el componente
     useEffect(() => {
         const fetchRepostajes = async () => {
             try {
-                const response = await axios.get(API_URL);
+                const response = await axios.get(API_URLS.repostaje);
                 // Ordenar por kilómetros en orden descendente
                 const sortedRepostajes = response.data.sort((a, b) => b.km - a.km);
                 setRepostajes(sortedRepostajes);
@@ -93,7 +95,7 @@ function ListRepostaje() {
             console.log('Añadiendo repostaje:');
             console.log('Nuevo repostaje:', newRepostaje);
             // Enviar datos al servidor
-            const response = await axios.post(API_URL, newRepostaje);
+            const response = await axios.post(API_URLS.repostaje, newRepostaje);
 
             // Agregar el nuevo repostaje a la lista local
             setRepostajes([...repostajes, response.data]);
@@ -122,7 +124,7 @@ function ListRepostaje() {
     // Eliminar un repostaje
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`${API_URL}/${id}`);
+            await axios.delete(`${API_URLS.repostaje}/${id}`);
             setRepostajes(repostajes.filter((repostaje) => repostaje._id !== id));
             alert('Repostaje eliminado correctamente');
 
