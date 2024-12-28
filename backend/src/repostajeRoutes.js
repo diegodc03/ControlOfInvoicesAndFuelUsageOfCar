@@ -6,9 +6,7 @@ import Repostajes from '../model/Repostaje.js';
 import dotenv from 'dotenv';
 dotenv.config({ path: './config.env' });
 
-
-
-
+const router = express.Router();
 
 // Ruta para obtener todas las facturas
 app.get('/repostajes', async (req, res) => {
@@ -19,7 +17,7 @@ app.get('/repostajes', async (req, res) => {
 
 
 // Ruta para guardar una factura
-app.post('/repostajes', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { carId, date, km, liters, import: importAmount } = req.body;
 
@@ -43,7 +41,7 @@ app.post('/repostajes', async (req, res) => {
 
 
 // Ruta para borrar un repostaje
-app.delete('/repostajes/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try{
     const { id } = req.params;
     const repostaje = await Repostajes.findById(id);

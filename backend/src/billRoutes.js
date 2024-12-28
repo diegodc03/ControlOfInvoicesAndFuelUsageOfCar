@@ -11,15 +11,18 @@
   
     import dotenv from 'dotenv';
     dotenv.config({ path: './config.env' });
-  
+    
 
+    const router = express.Router();
+  
+  
 
     // Simular __dirname
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
 
     // Configurar una carpeta para servir archivos estáticos
-    app.use('/facturas/billuploads', express.static(path.join(__dirname, 'billuploads')));
+    app.use('/billuploads', express.static(path.join(__dirname, 'billuploads')));
 
     // Configurar multer para aceptar solo imágenes
     const storage = multer.diskStorage({
@@ -53,7 +56,7 @@
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     // Ruta para subir una factura
 
-    app.post('/facturas/uploadBill', upload.single('file'), (req, res) => {
+    router.post('/uploadBill', upload.single('file'), (req, res) => {
         
         const { cost, date, km, fileName } = req.body;
         const file = req.file;
@@ -114,7 +117,7 @@
 
 
 
-    app.get('/facturas/get-all', async(req, res) => {
+    router.get('/get-all', async(req, res) => {
         console.log('GET /facturas/get-all');
         
         try{
@@ -128,7 +131,7 @@
     });
 
 
-    app.delete('/facturas/delete/:id', async(req, res) => {
+    router.delete('/delete/:id', async(req, res) => {
 
         const { id } = req.params;
         console.log('DELETE /facturas/delete/:id', id);

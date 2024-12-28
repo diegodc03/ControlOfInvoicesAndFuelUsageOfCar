@@ -1,23 +1,14 @@
 
 import express from 'express';
-import cors from 'cors';
+
 import User from './model/User.js';
 
-import dotenv from 'dotenv';
-dotenv.config({ path: './config.env' });
+
+const router = express.Router();
 
 
 
-console.log('MONGODB_CONNECT_URL:', process.env.MONGODB_CONNECT_URL);
-console.log('PORT:', process.env.PORT);
-
-// Creamos la aplicación de Express
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-
-app.post('/user-signup', async (req, res) => {
+router.post('/user-signup', async (req, res) => {
 
     const {name, second_name, email, password } = req.body;
     
@@ -33,7 +24,7 @@ app.post('/user-signup', async (req, res) => {
 
 
 
-app.post('/user-login', async (req, res) => {
+router.post('/user-login', async (req, res) => {
 
     const { email, password } = req.body;
 
