@@ -9,7 +9,7 @@ dotenv.config({ path: './config.env' });
 const router = express.Router();
 
 // Ruta para obtener todas las facturas
-app.get('/repostajes', async (req, res) => {
+router.get('/repostajes', async (req, res) => {
     const listRepostaje = await Repostajes.find();
     res.json(listRepostaje);
 });

@@ -22,7 +22,7 @@
     const __dirname = path.dirname(__filename);
 
     // Configurar una carpeta para servir archivos estáticos
-    app.use('/billuploads', express.static(path.join(__dirname, 'billuploads')));
+    router.use('/billuploads', express.static(path.join(__dirname, 'billuploads')));
 
     // Configurar multer para aceptar solo imágenes
     const storage = multer.diskStorage({
