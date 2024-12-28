@@ -18,11 +18,8 @@ import './SignUpStyle.css';
 const SignUp = () => {
   
 
+  
 
-  handleSignUp = (e) => {
-
-
-  }
 
 
   return (
