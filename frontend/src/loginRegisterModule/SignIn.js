@@ -1,11 +1,56 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import API_URLS from '../routesBackend'
 import './SignInStyle.css';
 
 const SignIn = () => {
 
+  const [loginUser, setLoginUser] = useState({
+      email: "",
+      password: "",
+    });
 
   
+  // Manejar cambios en los campos del formulario
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginUser((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+    }));
+  };
+
+
+
+  const handleAdd = async () => {
+  // Validar datos antes de enviar
+    if(loginUser.email === '' || loginUser.password === '' ){
+      console.error('Todos los campos son obligatorios.');
+      alert('Por favor, completa todos los campos antes de agregar.');
+      return;
+    }
+    try {
+      console.log('Añadiendo repostaje:');
+      console.log('Nuevo repostaje:', loginUser);
+      // Enviar datos al servidor
+      const response = await axios.post(API_URLS.userLogin, loginUser);
+  
+      // Mostrar retroalimentación al usuario
+      alert('User añadido correctamente.');
+  
+      
+      setLoginUser({
+        email: "",
+        password: "",
+      });
+  
+        } catch (error) {
+            console.error('Error al agregar el repostaje:', error);
+  
+            // Retroalimentación en caso de error
+            alert('Hubo un error al intentar agregar el repostaje. Inténtalo de nuevo.');
+        }
+    };
 
 
 
@@ -18,17 +63,19 @@ const SignIn = () => {
           </span>
         </div>
         <h1 className="title">Sign In</h1>
-        <form className="form">
+        <form onSubmit={(e) => e.preventDefault()} className='form'>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
               type="email"
               id="email"
               name="email"
-              placeholder="Email Address"
+              placeholder="xxxxx@xxxx.xxxx"
               required
               className="form-input"
-            />
+              value={loginUser.email}
+              onChange={handleChange}>
+            </input>
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
@@ -36,21 +83,15 @@ const SignIn = () => {
               type="password"
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder="xxxxxxxxx"
               required
               className="form-input"
-            />
+              value={loginUser.password}
+              onChange={handleChange}>
+            </input>
           </div>
-          <div className="form-group checkbox-group">
-            <input
-              type="checkbox"
-              id="remember"
-              name="remember"
-              className="checkbox"
-            />
-            <label htmlFor="remember">Remember me</label>
-          </div>
-          <button type="submit" className="submit-button">
+          
+          <button type="submit" className="submit-button" onClick={handleAdd}>
             Sign In
           </button>
           <div className="links-container">

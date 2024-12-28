@@ -1,55 +1,111 @@
-import React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { makeStyles } from '@mui/styles';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import API_URLS from '../routesBackend';
 import './SignUpStyle.css';
 
+
 const SignUp = () => {
-  
 
-  
+  const [newUser, setNewUser] = useState({
+    email: "",
+    password: "",
+    name: "",
+    second_name: "",
+  });
 
 
+  // Manejar cambios en los campos del formulario
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewUser((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+    }));
+  };
+
+
+  // Agregar un repostaje
+  const handleAdd = async () => {
+  // Validar datos antes de enviar
+  if(newUser.email === '' || newUser.password === '' || newUser.name === '' || newUser.second_name === ''){
+    console.error('Todos los campos son obligatorios.');
+    alert('Por favor, completa todos los campos antes de agregar.');
+    return;
+  }
+
+  try {
+    console.log('Añadiendo repostaje:');
+    console.log('Nuevo repostaje:', newUser);
+    // Enviar datos al servidor
+    const response = await axios.post(API_URLS.userSignUp, newUser);
+
+    // Mostrar retroalimentación al usuario
+    alert('User añadido correctamente.');
+
+    
+    setNewUser({
+      email: "",
+      password: "",
+      name: "",
+      second_name: "",
+    });
+
+      } catch (error) {
+          console.error('Error al agregar el repostaje:', error);
+
+          // Retroalimentación en caso de error
+          alert('Hubo un error al intentar agregar el repostaje. Inténtalo de nuevo.');
+      }
+  };
+
+
+    
 
   return (
     <div className="container-signup">
       <div className="avatar">🔒</div>
       <h1 className="title">Sign Up</h1>
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="row">
           <div>
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" placeholder="First Name" required></input>
+            <label for="name">First Name</label>
+            <input type="text" 
+                    id="name"
+                    name="name" 
+                    placeholder="ej: Diego" 
+                    required 
+                    value={newUser.name}
+                    onChange={handleChange}></input>
           </div>
           <div>
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required></input>
+            <label for="second_name">Last Name</label>
+            <input type="text" 
+                    id="second_name" 
+                    name="second_name" 
+                    placeholder="de Castro" required
+                    value={newUser.second_name}
+                    onChange={handleChange}></input>
           </div>
         </div>
         <div>
           <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="Email Address" required></input>
+          <input type="email" 
+                  id="email" 
+                  name="email" 
+                  placeholder="Email Address" required
+                  value={newUser.email}
+                  onChange={handleChange}></input>
         </div>
         <div>
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Password" required></input>
+          <input type="password" 
+                  id="password" 
+                  name="password" 
+                  placeholder="Password" required
+                  value={newUser.password}
+                  onChange={handleChange}></input>
         </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="allowExtraEmails" name="allowExtraEmails"></input>
-          <label for="allowExtraEmails">I want to receive inspiration, marketing promotions and updates via email.</label>
-        </div>
-        <button type="submit" class="submit-button">Sign Up</button>
+        <button type="submit" class="submit-button" onClick={handleAdd}>Sign Up</button>
       </form>
       <div class="footer">
         <p>Already have an account? <a href="/login">Sign in</a></p>
