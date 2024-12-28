@@ -1,6 +1,5 @@
 import './css/header.css';
 import React, {useState} from 'react';
-import FileUpload from './facturasCoche';
 import { Link } from "react-router-dom";
 import { Outlet } from 'react-router-dom';
 

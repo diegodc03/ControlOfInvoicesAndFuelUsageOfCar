@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import '../src/css/bill.css';
 import ShowBills from './mostrarFacturas';
 import AddCarBill from './addCarBill';

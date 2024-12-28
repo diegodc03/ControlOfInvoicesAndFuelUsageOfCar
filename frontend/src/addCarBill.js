@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../src/css/bill.css';
-import ShowBills from './mostrarFacturas';
 
 import API_URLS from './routesBackend';
 
