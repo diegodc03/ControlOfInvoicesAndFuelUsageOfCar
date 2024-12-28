@@ -10,7 +10,7 @@ const carSchema = new mongoose.Schema({
     bills: [{ type: mongoose.Schema.Types.ObjectId, ref: 'bill'}] // Relación con facturas
 });
 
-const car = mongoose.model('car', repostajeSchema);
+const car = mongoose.model('car', carSchema);
 
 export default car; // Usar export default
 

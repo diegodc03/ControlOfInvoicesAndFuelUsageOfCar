@@ -8,6 +8,6 @@ const userSchema = new mongoose.Schema({
     cars: [{ type: mongoose.Schema.Types.ObjectId, ref: 'car'}] // Relación con coches , como esta entre corchetes es un array puede un usuario tener varios coches, y que un coche esté en varios usuarios, per a partir de coche no podemos saber el usuario
 });
 
-const user = mongoose.model('user', repostajeSchema);
+const user = mongoose.model('user', userSchema);
 
 export default user; // Usar export default!cost || !date || !fileName 
