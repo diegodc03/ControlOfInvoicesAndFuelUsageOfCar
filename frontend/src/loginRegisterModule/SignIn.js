@@ -37,8 +37,7 @@ const SignIn = () => {
   
       // Mostrar retroalimentación al usuario
       alert('User añadido correctamente.');
-  
-      
+        
       setLoginUser({
         email: "",
         password: "",
