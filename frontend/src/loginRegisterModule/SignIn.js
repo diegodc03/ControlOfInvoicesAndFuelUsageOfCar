@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import API_URLS from '../routesBackend'
 import './SignInStyle.css';
@@ -36,7 +36,7 @@ const SignIn = () => {
       const response = await axios.post(API_URLS.userLogin, loginUser);
   
       // Mostrar retroalimentación al usuario
-      alert('User añadido correctamente.');
+      alert('User añadido correctamente.', response.data);
         
       setLoginUser({
         email: "",
@@ -94,9 +94,6 @@ const SignIn = () => {
             Sign In
           </button>
           <div className="links-container">
-            <a href="#" className="link">
-              Forgot password?
-            </a>
             <a href="/register" className="link">
               Don't have an account? Sign Up
             </a>

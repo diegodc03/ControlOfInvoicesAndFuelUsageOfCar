@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import API_URLS from '../routesBackend';
 import './SignUpStyle.css';
@@ -40,7 +40,7 @@ const SignUp = () => {
     const response = await axios.post(API_URLS.userSignUp, newUser);
 
     // Mostrar retroalimentación al usuario
-    alert('User añadido correctamente.');
+    alert('User añadido correctamente.', response.data);
 
     
     setNewUser({

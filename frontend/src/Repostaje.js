@@ -56,9 +56,8 @@ function ListRepostaje() {
         if(repostajes.length > 0){
             // Ordenar los repostajes por fecha (aseguramos que estén correctamente ordenados)
             const sortedRepostajes = [...repostajes].sort((a, b) => new Date(b.date) - new Date(a.date));
-        }
 
-        // Hay que encontrar el repostaje anterior al nuevo repostaje
+            // Hay que encontrar el repostaje anterior al nuevo repostaje
         // Es decir, el que tenga el menor mayor número de kilómetros despues del nuevo repostaje
         const repostajeAnterior = repostajes.find((repostaje) => repostaje.km < newRepostaje.km);
         
@@ -68,7 +67,7 @@ function ListRepostaje() {
             const fechaAnterior = new Date(repostajeAnterior.date);
 
             //Quiero encontrar el indice del repostaje posterior si hay alguno
-            const index = repostajes.findIndex((repostaje) => repostaje.km > newRepostaje.km);
+            const index = sortedRepostajes.findIndex((repostaje) => repostaje.km > newRepostaje.km);
             if(index > 0){
                 const repostajePosterior = repostajes[index];
                 const fechaPosterior = new Date(repostajePosterior.date);
@@ -90,6 +89,9 @@ function ListRepostaje() {
                 }
             }   
         }
+        }
+
+        
 
         try {
             console.log('Añadiendo repostaje:');
