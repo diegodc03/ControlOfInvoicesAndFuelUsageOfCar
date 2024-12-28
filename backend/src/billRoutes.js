@@ -164,7 +164,7 @@
 
 
 
-    app.delete('/facturas/delete-all', async(req, res) => {
+    router.delete('/facturas/delete-all', async(req, res) => {
 
         console.log('DELETE /facturas/delete-all');
         try {
